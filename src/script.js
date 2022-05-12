@@ -5,12 +5,14 @@ import { FontLoader } from 'three/examples/jsm/loaders/FontLoader.js'
 import { TextGeometry } from 'three/examples/jsm/geometries/TextGeometry.js'
 import * as dat from 'lil-gui'
 import { AmbientLight, Color, Group, Mesh, MeshBasicMaterial, MeshStandardMaterial, PlaneGeometry } from 'three'
+import {hallwayGroup, initializeHallway} from "./rooms/hallway";
+import {initializeOffice, officeGroup} from "./rooms/office";
 
 /**
  * Base
  */
 // Debug
-const gui = new dat.GUI()
+const gui = new dat.GUI({width: 400})
 
 // Canvas
 const canvas = document.querySelector('canvas.webgl')
@@ -18,7 +20,10 @@ const canvas = document.querySelector('canvas.webgl')
 // Scene
 const scene = new THREE.Scene()
 
-const parameters = {ambientLightColor: '#ffffff'}
+const parameters = {
+    ambientLightColor: '#ffffff',
+    wallColor: '#ffffff'
+}
 
 // Lights
 const lightsFolder = gui.addFolder('Lights')
@@ -33,72 +38,29 @@ scene.add(ambientLight)
 
 // Textures
 const textureLoader = new THREE.TextureLoader()
-
 // Material
 const wallMaterial = new MeshStandardMaterial({color: '#ffffff'})
+const wallMaterialGuiGroup = gui.addFolder('Wall parameters')
 
+wallMaterialGuiGroup.addColor(parameters, 'wallColor', '#ffffff')
+    .onChange(() => {
+        wallMaterial.color.set(parameters.wallColor)
+    })
 // Objects
 // House
 const appartement = new Group()
 
-// Halway
-const halway = new Group()
-const halwayFolder = gui.addFolder('Halway')
+// Hallway
+const hallway = hallwayGroup
+initializeHallway(wallMaterial, gui)
 
-const halwayFloor = new Mesh(
-   new PlaneGeometry(2, 3, 10, 100, 100),
-   new MeshStandardMaterial({color: '#8a4300'})
-)
-halwayFloor.rotateX(- Math.PI * 0.5)
+// Office
+const office = officeGroup
+initializeOffice(wallMaterial, gui)
+office.position.x = 2 / 2 + 1 / 2
+office.position.z = - 3.5 / 2 + 2 / 2
 
-// Door
-const halwayEntranceDoor = new Mesh(
-    new PlaneGeometry(1.5, 2.28, 100, 100),
-    new MeshStandardMaterial({color: '#000985'})
-)
-halwayEntranceDoor.position.y = (2.28 / 2)
-halwayEntranceDoor.position.z = 3/2 - 0.01
-halwayEntranceDoor.rotateY(Math.PI)
-
-// Entrance wall
-const halwayEntranceWall = new Mesh(
-    new PlaneGeometry(2, 2.28, 100, 100),
-    wallMaterial
-)
-halwayEntranceWall.position.y = (2.28 / 2)
-halwayEntranceWall.position.z = 3/2
-halwayEntranceWall.rotateY(Math.PI)
-
-// Left wall
-const halwayLeftWall = new Mesh(
-    new PlaneGeometry(3, 2.28, 100, 100),
-    wallMaterial
-)
-halwayLeftWall.position.y = (2.28 / 2)
-halwayLeftWall.position.x = - 2 / 2 
-halwayLeftWall.rotateY(Math.PI * 0.5)
-
-// Right wall
-const halwayRightWall = new Mesh(
-    new PlaneGeometry(2, 2.28, 100, 100),
-    wallMaterial
-)
-halwayRightWall.position.y = (2.28 / 2)
-halwayRightWall.position.x = 2 / 2 
-halwayRightWall.position.z = 2 / 2 / 2
-halwayRightWall.rotateY(- Math.PI * 0.5)
-
-// Roof
-const halwayRoof = new Mesh(
-    new PlaneGeometry(2, 3, 100, 100),
-    wallMaterial
-)
-halwayRoof.position.y = 2.28
-halwayRoof.rotateX(Math.PI * 0.5)
-
-halway.add(halwayFloor, halwayLeftWall, halwayRightWall, halwayRoof, halwayEntranceWall, halwayEntranceDoor)
-
-appartement.add(halway)
+appartement.add(hallway, office)
 scene.add(appartement)
 
 // Sizes
