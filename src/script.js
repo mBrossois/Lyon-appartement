@@ -7,12 +7,14 @@ import * as dat from 'lil-gui'
 import { AmbientLight, Color, Group, Mesh, MeshBasicMaterial, MeshStandardMaterial, PlaneGeometry } from 'three'
 import {hallwayGroup, initializeHallway} from "./rooms/hallway";
 import {initializeOffice, officeGroup} from "./rooms/office";
+import {dimensions} from "./utils/dimensions.const.js";
 
 /**
  * Base
  */
 // Debug
 const gui = new dat.GUI({width: 400})
+gui.close()
 
 // Canvas
 const canvas = document.querySelector('canvas.webgl')
@@ -27,6 +29,7 @@ const parameters = {
 
 // Lights
 const lightsFolder = gui.addFolder('Lights')
+lightsFolder.close()
 const ambientLight = new AmbientLight(parameters.ambientLightColor, 0.5)
 lightsFolder.add(ambientLight, 'intensity').name('Ambient intensity').min(0).max(2).step(0.001)
 lightsFolder.addColor(parameters, 'ambientLightColor', parameters.ambientLightColor ).name('Ambient color')
@@ -40,9 +43,10 @@ scene.add(ambientLight)
 const textureLoader = new THREE.TextureLoader()
 // Material
 const wallMaterial = new MeshStandardMaterial({color: '#ffffff'})
-const wallMaterialGuiGroup = gui.addFolder('Wall parameters')
+const wallMaterialFolder = gui.addFolder('Wall parameters')
+wallMaterialFolder.close()
 
-wallMaterialGuiGroup.addColor(parameters, 'wallColor', '#ffffff')
+wallMaterialFolder.addColor(parameters, 'wallColor', '#ffffff')
     .onChange(() => {
         wallMaterial.color.set(parameters.wallColor)
     })
@@ -57,8 +61,8 @@ initializeHallway(wallMaterial, gui)
 // Office
 const office = officeGroup
 initializeOffice(wallMaterial, gui)
-office.position.x = 2 / 2 + 1 / 2
-office.position.z = - 3.5 / 2 + 2 / 2
+office.position.x = dimensions.hallway.width / 2 + dimensions.office.width / 2
+office.position.z = - dimensions.hallway.length / 2 + dimensions.office.length / 2
 
 appartement.add(hallway, office)
 scene.add(appartement)
