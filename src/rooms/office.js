@@ -1,35 +1,65 @@
 import {Group, Mesh, MeshStandardMaterial, PlaneGeometry} from "three";
+import {dimensions} from "../utils/dimensions.const.js";
+import {addToGui} from "../utils/gui.util.js";
 
 export const officeGroup = new Group()
 
 export const initializeOffice = (wallMaterial, gui) => {
-    const officeGuiGroup = gui.addFolder('Office')
+    const officeFolder = gui.addFolder('Office')
+    officeFolder.close()
     const parameters = {
-        floorColor: '#cc6b0f',
+        floorColor: '#e6e6e6',
 
     }
-
+    // Floor
     const officeFloor = new Mesh(
-        new PlaneGeometry(1, 2, 10, 100, 100),
+        new PlaneGeometry(dimensions.office.width, dimensions.office.length, 10, 100, 100),
         new MeshStandardMaterial({color: parameters.floorColor})
     )
 
-    officeGuiGroup.addColor(parameters, 'floorColor', '#8a4300')
+    officeFolder.addColor(parameters, 'floorColor', '#e6e6e6')
         .onChange(() => {
             officeFloor.material.color.set(parameters.floorColor)
         })
 
-    console.log(officeFloor)
     officeFloor.rotation.x = - Math.PI * 0.5
 
-    officeGuiGroup.add(officeFloor.scale, 'x').name('width floor').min(0).max(10).step(0.01)
-    officeGuiGroup.add(officeFloor.scale, 'y').name('length floor').min(0).max(10).step(0.01)
-    officeGuiGroup.add(officeFloor.position, 'x').name('width floor left').min(-10).max(10).step(0.01)
-    officeGuiGroup.add(officeFloor.position, 'z').name('move floor back').min(-10).max(10).step(0.01)
-    officeGuiGroup.add(officeFloor.position, 'y').name('move floor up').min(-10).max(10).step(0.01)
-    officeGuiGroup.add(officeFloor.rotation, 'x').name('rotate floor over length').min(- Math.PI * 2).max(Math.PI * 2).step(0.01)
-    officeGuiGroup.add(officeFloor.rotation, 'y').name('rotate floor over width').min(0).max(10).step(0.01)
+    addToGui(officeFolder, officeFloor, 'floor')
 
+    // Back wall
+    const officeBackWall = new Mesh(
+        new PlaneGeometry(dimensions.office.width, dimensions.office.height, 100, 100),
+        wallMaterial
+    )
 
-    officeGroup.add(officeFloor)
+    officeBackWall.position.y = dimensions.office.height / 2
+    officeBackWall.position.z = dimensions.office.length / 2
+    officeBackWall.rotation.x = Math.PI
+
+    addToGui(officeFolder, officeBackWall, 'back wall')
+
+    // Right wall
+    const officeRightWall = new Mesh(
+        new PlaneGeometry(dimensions.office.length, dimensions.office.height),
+        wallMaterial
+    )
+
+    officeRightWall.position.x = dimensions.office.width / 2
+    officeRightWall.position.y = dimensions.office.height / 2
+    officeRightWall.rotation.y = - Math.PI * 0.5
+
+    addToGui(officeFolder, officeRightWall, 'right wall')
+
+    // Roof
+    const officeRoof = new Mesh(
+        new PlaneGeometry(dimensions.office.width, dimensions.office.length, 100, 100),
+        wallMaterial
+    )
+
+    officeRoof.position.y = dimensions.office.height
+    officeRoof.rotation.x = Math.PI * 0.5
+
+    addToGui(officeFolder, officeRoof, 'roof')
+
+    officeGroup.add(officeFloor, officeBackWall, officeRightWall, officeRoof)
 }
