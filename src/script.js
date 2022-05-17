@@ -8,6 +8,7 @@ import { AmbientLight, Color, Group, Mesh, MeshBasicMaterial, MeshStandardMateri
 import {hallwayGroup, initializeHallway} from "./rooms/hallway";
 import {initializeOffice, officeGroup} from "./rooms/office";
 import {dimensions} from "./utils/dimensions.const.js";
+import {archwayGroup} from "./objects/archwayGroup";
 
 /**
  * Base
