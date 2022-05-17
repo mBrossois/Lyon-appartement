@@ -1,6 +1,7 @@
 import {Group, Mesh, MeshStandardMaterial, PlaneGeometry} from "three";
 import {dimensions} from "../utils/dimensions.const.js";
 import {addToGui} from "../utils/gui.util.js";
+import {archwayGroup, initializeArchway} from "../objects/archwayGroup";
 
 export const officeGroup = new Group()
 
@@ -61,5 +62,9 @@ export const initializeOffice = (wallMaterial, gui) => {
 
     addToGui(officeFolder, officeRoof, 'roof')
 
-    officeGroup.add(officeFloor, officeBackWall, officeRightWall, officeRoof)
+    const archway = archwayGroup
+
+    initializeArchway(gui)
+
+    officeGroup.add(officeFloor, officeBackWall, officeRightWall, officeRoof, archway)
 }
