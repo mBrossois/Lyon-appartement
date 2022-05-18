@@ -9,6 +9,7 @@ import {hallwayGroup, initializeHallway} from "./rooms/hallway";
 import {initializeOffice, officeGroup} from "./rooms/office";
 import {dimensions} from "./utils/dimensions.const.js";
 import {archwayGroup} from "./objects/archwayGroup";
+import {initializeKitchen, kitchenGroup} from "./rooms/kitchen";
 
 /**
  * Base
@@ -25,7 +26,8 @@ const scene = new THREE.Scene()
 
 const parameters = {
     ambientLightColor: '#ffffff',
-    wallColor: '#ffffff'
+    wallColor: '#ffffff',
+    floorColor: '#f5b74d'
 }
 
 // Lights
@@ -43,13 +45,20 @@ scene.add(ambientLight)
 // Textures
 const textureLoader = new THREE.TextureLoader()
 // Material
-const wallMaterial = new MeshStandardMaterial({color: '#ffffff'})
-const wallMaterialFolder = gui.addFolder('Wall parameters')
-wallMaterialFolder.close()
+const wallMaterial = new MeshStandardMaterial({color: parameters.wallColor})
+const floorMaterial = new MeshStandardMaterial({color: parameters.floorColor})
 
-wallMaterialFolder.addColor(parameters, 'wallColor', '#ffffff')
+const materialFolder = gui.addFolder('Color parameters')
+materialFolder.close()
+
+materialFolder.addColor(parameters, 'wallColor', parameters.wallColor)
     .onChange(() => {
         wallMaterial.color.set(parameters.wallColor)
+    })
+
+materialFolder.addColor(parameters, 'floorColor', parameters.floorColor)
+    .onChange(() => {
+        floorMaterial.color.set(parameters.floorColor)
     })
 // Objects
 // House
@@ -58,14 +67,20 @@ const appartement = new Group()
 // Hallway
 const hallway = hallwayGroup
 initializeHallway(wallMaterial, gui)
+hallway.position.x = - dimensions.hallway.width / 2 + (dimensions.kitchen.width - dimensions.hallway.width ) / 2 / 2
+hallway.position.z = dimensions.hallway.length / 2 + dimensions.kitchen.length / 2
 
 // Office
 const office = officeGroup
 initializeOffice(wallMaterial, gui)
-office.position.x = dimensions.hallway.width / 2 + dimensions.office.width / 2
-office.position.z = - dimensions.hallway.length / 2 + dimensions.office.length / 2
+office.position.x = - dimensions.hallway.width / 2 + (dimensions.kitchen.width - dimensions.hallway.width) / 2 /2 + (dimensions.hallway.width / 2 + dimensions.office.width / 2)
+office.position.z = dimensions.hallway.length / 2 + dimensions.kitchen.length / 2 - (dimensions.hallway.length / 2 - dimensions.office.length / 2)
 
-appartement.add(hallway, office)
+// Kitchen
+const kitchen = kitchenGroup
+initializeKitchen(wallMaterial, floorMaterial, gui)
+
+appartement.add(hallway, office, kitchen)
 scene.add(appartement)
 
 // Sizes
