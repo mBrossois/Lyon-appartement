@@ -6,6 +6,7 @@ export const kitchenGroup = new Group()
 
 export const initializeKitchen = (wallMaterial, floorMaterial, gui) => {
     const kitchenFolder = gui.addFolder('Kitchen')
+    kitchenFolder.close()
     // Floor
     const floor = new Mesh(
         new PlaneGeometry(dimensions.kitchen.width, dimensions.kitchen.length, 20, 20),

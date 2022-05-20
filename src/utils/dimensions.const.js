@@ -13,5 +13,10 @@ export const dimensions = {
         length: 2.6,
         width: 3.4,
         height: 2.28,
+    },
+    livingRoom: {
+        length: 4.5,
+        width: 3.4,
+        height: 2.28,
     }
 }

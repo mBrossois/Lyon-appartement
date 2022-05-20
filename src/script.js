@@ -10,6 +10,7 @@ import {initializeOffice, officeGroup} from "./rooms/office";
 import {dimensions} from "./utils/dimensions.const.js";
 import {archwayGroup} from "./objects/archwayGroup";
 import {initializeKitchen, kitchenGroup} from "./rooms/kitchen";
+import {initializeLivingRoom, livingRoomGroup} from "./rooms/living-room";
 
 /**
  * Base
@@ -80,7 +81,12 @@ office.position.z = dimensions.hallway.length / 2 + dimensions.kitchen.length / 
 const kitchen = kitchenGroup
 initializeKitchen(wallMaterial, floorMaterial, gui)
 
-appartement.add(hallway, office, kitchen)
+// Living room
+const livingRoom = livingRoomGroup
+initializeLivingRoom(wallMaterial, floorMaterial, gui, parameters)
+livingRoom.position.z = - (dimensions.kitchen.length + dimensions.livingRoom.length) / 2
+
+appartement.add(hallway, office, kitchen, livingRoom)
 scene.add(appartement)
 
 // Sizes
