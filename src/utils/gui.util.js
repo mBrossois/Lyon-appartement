@@ -1,5 +1,5 @@
-export const addToGui = (group, mesh, name) => {
-    const newFolder = group.addFolder(name)
+export const addToGui = (folder, mesh, name) => {
+    const newFolder = folder.addFolder(name)
     newFolder.close()
 
     newFolder.add(mesh.scale, 'x').name(`width ${name}`).min(0).max(10).step(0.01)

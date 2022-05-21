@@ -10,6 +10,9 @@ import {initializeOffice, officeGroup} from "./rooms/office";
 import {dimensions} from "./utils/dimensions.const.js";
 import {archwayGroup} from "./objects/archwayGroup";
 import {initializeKitchen, kitchenGroup} from "./rooms/kitchen";
+import {initializeLivingRoom, livingRoomGroup} from "./rooms/living-room";
+import {bedroomGroup, initializeBedroom} from "./rooms/bedroom";
+import {bathroomGroup, initializeBathroom} from "./rooms/bathroom";
 
 /**
  * Base
@@ -76,11 +79,31 @@ initializeOffice(wallMaterial, gui)
 office.position.x = - dimensions.hallway.width / 2 + (dimensions.kitchen.width - dimensions.hallway.width) / 2 /2 + (dimensions.hallway.width / 2 + dimensions.office.width / 2)
 office.position.z = dimensions.hallway.length / 2 + dimensions.kitchen.length / 2 - (dimensions.hallway.length / 2 - dimensions.office.length / 2)
 
-// Kitchen
+// Kitchen (centered)
 const kitchen = kitchenGroup
 initializeKitchen(wallMaterial, floorMaterial, gui)
 
-appartement.add(hallway, office, kitchen)
+// Living room
+const livingRoom = livingRoomGroup
+initializeLivingRoom(wallMaterial, floorMaterial, gui)
+livingRoom.position.z = - (dimensions.kitchen.length + dimensions.livingRoom.length) / 2
+
+// Bedroom
+const bedroom = bedroomGroup
+initializeBedroom(wallMaterial, floorMaterial, gui)
+bedroom.position.x = - (dimensions.livingRoom.width + dimensions.bedroom.width + dimensions.livingRoom.wallDepth ) / 2
+bedroom.position.y = dimensions.livingRoom.height - dimensions.bedroom.height
+bedroom.position.z = - (dimensions.kitchen.length + dimensions.bedroom.length) / 2
+
+// Bathroom
+const bathroom = bathroomGroup
+initializeBathroom(wallMaterial, gui)
+bathroom.position.x = - (dimensions.kitchen.width + dimensions.bathroom.width + dimensions.kitchen.wallDepth) / 2
+bathroom.position.y = dimensions.kitchen.height - dimensions.bathroom.height
+bathroom.position.z = - (dimensions.kitchen.length - dimensions.bathroom.length - dimensions.bedroom.wallDepth) / 2
+
+
+appartement.add(hallway, office, kitchen, livingRoom, bedroom, bathroom)
 scene.add(appartement)
 
 // Sizes
@@ -109,7 +132,7 @@ window.addEventListener('resize', () =>
  */
 // Base camera
 const camera = new THREE.PerspectiveCamera(75, sizes.width / sizes.height, 0.1, 100)
-camera.position.x = 1
+camera.position.x = -3
 camera.position.y = 2
 camera.position.z = 3
 scene.add(camera)
