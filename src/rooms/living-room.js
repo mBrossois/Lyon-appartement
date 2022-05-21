@@ -1,11 +1,10 @@
-import {Box3, BoxGeometry, Group, Mesh, MeshStandardMaterial, Plane, PlaneGeometry, PlaneHelper, Vector3} from "three";
+import {BoxGeometry, Group, Mesh, PlaneGeometry} from "three";
 import {dimensions} from "../utils/dimensions.const";
 import {addToGui} from "../utils/gui.util";
-import {distance} from "three/examples/jsm/renderers/nodes/ShaderNode";
 
 export const livingRoomGroup = new Group()
 
-export const initializeLivingRoom = (wallMaterial, floorMaterial, gui, parameters) => {
+export const initializeLivingRoom = (wallMaterial, floorMaterial, gui) => {
     const livingRoomFolder = gui.addFolder('living room')
 
     // Floor
@@ -13,7 +12,7 @@ export const initializeLivingRoom = (wallMaterial, floorMaterial, gui, parameter
         new PlaneGeometry(dimensions.livingRoom.width, dimensions.livingRoom.length, 10, 10),
         floorMaterial
     )
-    floor.rotation.x = - Math.PI * 0.5
+    floor.rotation.x = -Math.PI * 0.5
     addToGui(livingRoomFolder, floor, 'floor')
 
     // Ceiling
@@ -31,7 +30,7 @@ export const initializeLivingRoom = (wallMaterial, floorMaterial, gui, parameter
         new PlaneGeometry(dimensions.livingRoom.length, dimensions.livingRoom.height, 10, 10),
         wallMaterial
     )
-    rightWall.rotation.y = - Math.PI * 0.5
+    rightWall.rotation.y = -Math.PI * 0.5
     rightWall.position.x = dimensions.livingRoom.width / 2
     rightWall.position.y = dimensions.livingRoom.height / 2
 
@@ -42,20 +41,18 @@ export const initializeLivingRoom = (wallMaterial, floorMaterial, gui, parameter
         new BoxGeometry(dimensions.livingRoom.length, dimensions.livingRoom.height, 0.1, 10, 10, 10),
         wallMaterial
     )
-    leftWall.position.x = - (dimensions.livingRoom.width + 0.1) / 2
+    leftWall.position.x = -(dimensions.livingRoom.width + 0.1) / 2
     leftWall.position.y = dimensions.livingRoom.height / 2
     leftWall.rotation.y = Math.PI * 0.5
 
     // Back wall
     const backWall = new Mesh(
         new PlaneGeometry(dimensions.livingRoom.width, dimensions.livingRoom.height, 10, 10),
-        new MeshStandardMaterial({
-            color: parameters.wallColor,
-        })
+        wallMaterial
     )
 
     backWall.position.y = dimensions.livingRoom.height / 2
-    backWall.position.z = - dimensions.livingRoom.length / 2
+    backWall.position.z = -dimensions.livingRoom.length / 2
 
     addToGui(livingRoomFolder, backWall, 'back wall')
 

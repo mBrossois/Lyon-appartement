@@ -11,6 +11,7 @@ import {dimensions} from "./utils/dimensions.const.js";
 import {archwayGroup} from "./objects/archwayGroup";
 import {initializeKitchen, kitchenGroup} from "./rooms/kitchen";
 import {initializeLivingRoom, livingRoomGroup} from "./rooms/living-room";
+import {bedroomGroup, initializeBedroom} from "./rooms/bedroom";
 
 /**
  * Base
@@ -77,16 +78,26 @@ initializeOffice(wallMaterial, gui)
 office.position.x = - dimensions.hallway.width / 2 + (dimensions.kitchen.width - dimensions.hallway.width) / 2 /2 + (dimensions.hallway.width / 2 + dimensions.office.width / 2)
 office.position.z = dimensions.hallway.length / 2 + dimensions.kitchen.length / 2 - (dimensions.hallway.length / 2 - dimensions.office.length / 2)
 
-// Kitchen
+// Kitchen (centered)
 const kitchen = kitchenGroup
 initializeKitchen(wallMaterial, floorMaterial, gui)
 
 // Living room
 const livingRoom = livingRoomGroup
-initializeLivingRoom(wallMaterial, floorMaterial, gui, parameters)
+initializeLivingRoom(wallMaterial, floorMaterial, gui)
 livingRoom.position.z = - (dimensions.kitchen.length + dimensions.livingRoom.length) / 2
 
-appartement.add(hallway, office, kitchen, livingRoom)
+// Bedroom
+const bedroom = bedroomGroup
+initializeBedroom(wallMaterial, floorMaterial, gui)
+
+bedroom.position.x = - (dimensions.livingRoom.width + dimensions.bedroom.width ) / 2
+bedroom.position.y = dimensions.livingRoom.height - dimensions.bedroom.height
+bedroom.position.z = - (dimensions.kitchen.length + dimensions.bedroom.length) / 2
+
+// Bathroom
+
+appartement.add(hallway, office, kitchen, livingRoom, bedroom)
 scene.add(appartement)
 
 // Sizes
@@ -115,7 +126,7 @@ window.addEventListener('resize', () =>
  */
 // Base camera
 const camera = new THREE.PerspectiveCamera(75, sizes.width / sizes.height, 0.1, 100)
-camera.position.x = 1
+camera.position.x = -3
 camera.position.y = 2
 camera.position.z = 3
 scene.add(camera)

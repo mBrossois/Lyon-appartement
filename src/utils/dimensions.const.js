@@ -18,5 +18,10 @@ export const dimensions = {
         length: 4.5,
         width: 3.4,
         height: 2.28,
+    },
+    bedroom: {
+        length: 4.5,
+        width: 2.2,
+        height: 2.2
     }
 }
