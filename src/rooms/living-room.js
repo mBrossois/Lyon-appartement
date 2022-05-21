@@ -1,4 +1,4 @@
-import {Box3, Group, Mesh, MeshStandardMaterial, Plane, PlaneGeometry, PlaneHelper, Vector3} from "three";
+import {Box3, BoxGeometry, Group, Mesh, MeshStandardMaterial, Plane, PlaneGeometry, PlaneHelper, Vector3} from "three";
 import {dimensions} from "../utils/dimensions.const";
 import {addToGui} from "../utils/gui.util";
 import {distance} from "three/examples/jsm/renderers/nodes/ShaderNode";
@@ -38,10 +38,13 @@ export const initializeLivingRoom = (wallMaterial, floorMaterial, gui, parameter
     addToGui(livingRoomFolder, rightWall, 'right wall')
 
     // Left wall
-
-    // Doorway left wall
-
-    // Window left wall
+    const leftWall = new Mesh(
+        new BoxGeometry(dimensions.livingRoom.length, dimensions.livingRoom.height, 0.1, 10, 10, 10),
+        wallMaterial
+    )
+    leftWall.position.x = - (dimensions.livingRoom.width + 0.1) / 2
+    leftWall.position.y = dimensions.livingRoom.height / 2
+    leftWall.rotation.y = Math.PI * 0.5
 
     // Back wall
     const backWall = new Mesh(
@@ -57,5 +60,5 @@ export const initializeLivingRoom = (wallMaterial, floorMaterial, gui, parameter
     addToGui(livingRoomFolder, backWall, 'back wall')
 
 
-    livingRoomGroup.add(floor, ceiling, rightWall, backWall)
+    livingRoomGroup.add(floor, ceiling, rightWall, backWall, leftWall)
 }
