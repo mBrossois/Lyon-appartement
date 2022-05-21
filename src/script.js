@@ -12,6 +12,7 @@ import {archwayGroup} from "./objects/archwayGroup";
 import {initializeKitchen, kitchenGroup} from "./rooms/kitchen";
 import {initializeLivingRoom, livingRoomGroup} from "./rooms/living-room";
 import {bedroomGroup, initializeBedroom} from "./rooms/bedroom";
+import {bathroomGroup, initializeBathroom} from "./rooms/bathroom";
 
 /**
  * Base
@@ -90,14 +91,19 @@ livingRoom.position.z = - (dimensions.kitchen.length + dimensions.livingRoom.len
 // Bedroom
 const bedroom = bedroomGroup
 initializeBedroom(wallMaterial, floorMaterial, gui)
-
-bedroom.position.x = - (dimensions.livingRoom.width + dimensions.bedroom.width ) / 2
+bedroom.position.x = - (dimensions.livingRoom.width + dimensions.bedroom.width + dimensions.livingRoom.wallDepth ) / 2
 bedroom.position.y = dimensions.livingRoom.height - dimensions.bedroom.height
 bedroom.position.z = - (dimensions.kitchen.length + dimensions.bedroom.length) / 2
 
 // Bathroom
+const bathroom = bathroomGroup
+initializeBathroom(wallMaterial, gui)
+bathroom.position.x = - (dimensions.kitchen.width + dimensions.bathroom.width + dimensions.kitchen.wallDepth) / 2
+bathroom.position.y = dimensions.kitchen.height - dimensions.bathroom.height
+bathroom.position.z = - (dimensions.kitchen.length - dimensions.bathroom.length - dimensions.bedroom.wallDepth) / 2
 
-appartement.add(hallway, office, kitchen, livingRoom, bedroom)
+
+appartement.add(hallway, office, kitchen, livingRoom, bedroom, bathroom)
 scene.add(appartement)
 
 // Sizes

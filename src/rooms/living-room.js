@@ -6,6 +6,7 @@ export const livingRoomGroup = new Group()
 
 export const initializeLivingRoom = (wallMaterial, floorMaterial, gui) => {
     const livingRoomFolder = gui.addFolder('living room')
+    livingRoomFolder.close()
 
     // Floor
     const floor = new Mesh(
@@ -38,10 +39,10 @@ export const initializeLivingRoom = (wallMaterial, floorMaterial, gui) => {
 
     // Left wall
     const leftWall = new Mesh(
-        new BoxGeometry(dimensions.livingRoom.length, dimensions.livingRoom.height, 0.1, 10, 10, 10),
+        new BoxGeometry(dimensions.livingRoom.length, dimensions.livingRoom.height, dimensions.livingRoom.wallDepth, 10, 10, 10),
         wallMaterial
     )
-    leftWall.position.x = -(dimensions.livingRoom.width + 0.1) / 2
+    leftWall.position.x = -(dimensions.livingRoom.width + dimensions.livingRoom.wallDepth) / 2
     leftWall.position.y = dimensions.livingRoom.height / 2
     leftWall.rotation.y = Math.PI * 0.5
 

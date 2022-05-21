@@ -1,4 +1,4 @@
-import {Group, Mesh, PlaneGeometry} from "three";
+import {BoxGeometry, Group, Mesh, PlaneGeometry} from "three";
 import {dimensions} from "../utils/dimensions.const";
 import {addToGui} from "../utils/gui.util";
 
@@ -18,11 +18,11 @@ export const initializeKitchen = (wallMaterial, floorMaterial, gui) => {
 
     // Left wall
     const leftWall = new Mesh(
-        new PlaneGeometry(dimensions.kitchen.length, dimensions.kitchen.height, 20, 20),
+        new BoxGeometry(dimensions.kitchen.length, dimensions.kitchen.height, dimensions.kitchen.wallDepth, 20, 20),
         wallMaterial
     )
 
-    leftWall.position.x = - dimensions.kitchen.width/2
+    leftWall.position.x = - (dimensions.kitchen.width + dimensions.kitchen.wallDepth)/2
     leftWall.position.y = dimensions.kitchen.height / 2
     leftWall.rotation.y = Math.PI * 0.5
     addToGui(kitchenFolder, leftWall, 'leftWall')

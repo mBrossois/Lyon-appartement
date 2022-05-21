@@ -1,4 +1,4 @@
-import {Group, Mesh, PlaneGeometry} from "three";
+import {BoxGeometry, Group, Mesh, PlaneGeometry} from "three";
 import {dimensions} from "../utils/dimensions.const";
 import {addToGui} from "../utils/gui.util";
 
@@ -6,6 +6,7 @@ export const bedroomGroup = new Group()
 
 export const initializeBedroom = (wallMaterial, floorMaterial, gui) => {
     const bedroomFolder = gui.addFolder('bedroom')
+    bedroomFolder.close()
     // Floor
     const floor = new Mesh(
         new PlaneGeometry(dimensions.bedroom.width, dimensions.bedroom.length, 10, 10),
@@ -28,11 +29,11 @@ export const initializeBedroom = (wallMaterial, floorMaterial, gui) => {
 
     // Front wall
     const frontWall = new Mesh(
-        new PlaneGeometry(dimensions.bedroom.width, dimensions.bedroom.height, 10, 10),
+        new BoxGeometry(dimensions.bedroom.width, dimensions.bedroom.height, dimensions.bedroom.wallDepth, 10, 10),
         wallMaterial
     )
     frontWall.position.y = dimensions.bedroom.height / 2
-    frontWall.position.z = dimensions.bedroom.length / 2
+    frontWall.position.z = (dimensions.bedroom.length + dimensions.bedroom.wallDepth) / 2
     frontWall.rotation.y = Math.PI
 
     addToGui(bedroomFolder, frontWall, 'front wall')
