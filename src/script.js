@@ -95,7 +95,7 @@ livingRoom.position.z = -(dimensions.kitchen.length + dimensions.livingRoom.leng
 
 // Bedroom
 const bedroom = bedroomGroup
-initializeBedroom(wallMaterial, floorMaterial, gui)
+initializeBedroom(wallMaterial, floorMaterial, textureLoader, gui)
 bedroom.position.x = -(dimensions.livingRoom.width + dimensions.bedroom.width + dimensions.livingRoom.wallDepth) / 2
 bedroom.position.y = dimensions.livingRoom.height - dimensions.bedroom.height
 bedroom.position.z = -(dimensions.kitchen.length + dimensions.bedroom.length) / 2

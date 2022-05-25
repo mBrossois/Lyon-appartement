@@ -6,8 +6,9 @@ export const livingRoomGroup = new Group()
 
 export const initializeLivingRoom = (wallMaterial, floorMaterial, textureLoader, gui) => {
     // Textures
-    const wallTextureGreyScale = textureLoader.load('/textures/wall/wall-grayscale.jpg')
-    const wallTextureGreyScaleMirrored = textureLoader.load('/textures/wall/wall-grayscale-mirrored.jpg')
+    const backWallTextureGreyscale = textureLoader.load('/textures/living-room/wall/back/wall-living-room-back-grayscale.jpg')
+    const leftWallTextureGreyscale = textureLoader.load('/textures/living-room/wall/left/wall-grayscale.jpg')
+    const leftWallTextureGreyscaleMirrored = textureLoader.load('/textures/living-room/wall/left/wall-grayscale-mirrored.jpg')
 
     const livingRoomFolder = gui.addFolder('living room')
     livingRoomFolder.close()
@@ -53,12 +54,12 @@ export const initializeLivingRoom = (wallMaterial, floorMaterial, textureLoader,
             new MeshStandardMaterial({
                 color: '#ffffff',
                 transparent: true,
-                alphaMap: wallTextureGreyScale,
+                alphaMap: leftWallTextureGreyscale,
             }),
             new MeshStandardMaterial({
                 color: '#ffffff',
                 transparent: true,
-                alphaMap: wallTextureGreyScaleMirrored,
+                alphaMap: leftWallTextureGreyscaleMirrored,
             })
         ]
     )
@@ -70,7 +71,11 @@ export const initializeLivingRoom = (wallMaterial, floorMaterial, textureLoader,
     // Back wall
     const backWall = new Mesh(
         new PlaneGeometry(dimensions.livingRoom.width, dimensions.livingRoom.height, 10, 10),
-        wallMaterial
+        new MeshStandardMaterial({
+            color: '#ffffff',
+            transparent: true,
+            alphaMap: backWallTextureGreyscale
+        })
     )
 
     backWall.position.y = dimensions.livingRoom.height / 2
