@@ -1,10 +1,15 @@
-import {BoxGeometry, Group, Mesh, PlaneGeometry} from "three";
+import {BoxGeometry, DoubleSide, Group, Mesh, MeshStandardMaterial, PlaneGeometry} from "three";
 import {dimensions} from "../utils/dimensions.const";
 import {addToGui} from "../utils/gui.util";
 
 export const livingRoomGroup = new Group()
 
-export const initializeLivingRoom = (wallMaterial, floorMaterial, gui) => {
+export const initializeLivingRoom = (wallMaterial, floorMaterial, textureLoader, gui) => {
+    // Textures
+    const backWallTextureGreyscale = textureLoader.load('/textures/living-room/wall/back/wall-living-room-back-grayscale.jpg')
+    const leftWallTextureGreyscale = textureLoader.load('/textures/living-room/wall/left/wall-grayscale.jpg')
+    const leftWallTextureGreyscaleMirrored = textureLoader.load('/textures/living-room/wall/left/wall-grayscale-mirrored.jpg')
+
     const livingRoomFolder = gui.addFolder('living room')
     livingRoomFolder.close()
 
@@ -40,8 +45,25 @@ export const initializeLivingRoom = (wallMaterial, floorMaterial, gui) => {
     // Left wall
     const leftWall = new Mesh(
         new BoxGeometry(dimensions.livingRoom.length, dimensions.livingRoom.height, dimensions.livingRoom.wallDepth, 10, 10, 10),
-        wallMaterial
+        // order to add materials: x+,x-,y+,y-,z+,z-
+        [
+            wallMaterial,
+            wallMaterial,
+            wallMaterial,
+            wallMaterial,
+            new MeshStandardMaterial({
+                color: '#ffffff',
+                transparent: true,
+                alphaMap: leftWallTextureGreyscale,
+            }),
+            new MeshStandardMaterial({
+                color: '#ffffff',
+                transparent: true,
+                alphaMap: leftWallTextureGreyscaleMirrored,
+            })
+        ]
     )
+
     leftWall.position.x = -(dimensions.livingRoom.width + dimensions.livingRoom.wallDepth) / 2
     leftWall.position.y = dimensions.livingRoom.height / 2
     leftWall.rotation.y = Math.PI * 0.5
@@ -49,7 +71,11 @@ export const initializeLivingRoom = (wallMaterial, floorMaterial, gui) => {
     // Back wall
     const backWall = new Mesh(
         new PlaneGeometry(dimensions.livingRoom.width, dimensions.livingRoom.height, 10, 10),
-        wallMaterial
+        new MeshStandardMaterial({
+            color: '#ffffff',
+            transparent: true,
+            alphaMap: backWallTextureGreyscale
+        })
     )
 
     backWall.position.y = dimensions.livingRoom.height / 2
