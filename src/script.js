@@ -39,11 +39,11 @@ const doorTextureNormal = textureLoader.load('/textures/Door_Wood/Door_Wood_001_
 const doorTextureOpacity = textureLoader.load('/textures/Door_Wood/Door_Wood_001_opacity.jpg')
 const doorTextureRoughness = textureLoader.load('/textures/Door_Wood/Door_Wood_001_roughness.jpg')
 
-const tilesTextureAmbientOcclusion = textureLoader.load('/textures/Tiles_bathroom/Tiles_028_ambientOcclusion.jpg')
-const tilesTextureBasecolor = textureLoader.load('/textures/Tiles_bathroom/Tiles_028_basecolor_grey.jpg')
-const tilesTextureHeight = textureLoader.load('/textures/Tiles_bathroom/Tiles_028_height.png')
-const tilesTextureNormal = textureLoader.load('/textures/Tiles_bathroom/Tiles_028_normal.jpg')
-const tilesTextureRoughness = textureLoader.load('/textures/Tiles_bathroom/Tiles_028_roughness.jpg')
+const tilesTextureAmbientOcclusion = textureLoader.load('/textures/tiles_bathroom/Tiles_028_ambientOcclusion.jpg')
+const tilesTextureBasecolor = textureLoader.load('/textures/tiles_bathroom/Tiles_028_basecolor_grey.jpg')
+const tilesTextureHeight = textureLoader.load('/textures/tiles_bathroom/Tiles_028_height.png')
+const tilesTextureNormal = textureLoader.load('/textures/tiles_bathroom/Tiles_028_normal.jpg')
+const tilesTextureRoughness = textureLoader.load('/textures/tiles_bathroom/Tiles_028_roughness.jpg')
 
 const woodFloorTextureColor = textureLoader.load('/textures/Wood_Floor/Wood_Floor_007_COLOR.jpg')
 const woodFloorTextureHeight = textureLoader.load('/textures/Wood_Floor/Wood_Floor_007_DISP.png')
