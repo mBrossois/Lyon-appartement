@@ -1,4 +1,4 @@
-import {BoxGeometry, Group, Mesh, PlaneGeometry} from "three";
+import {BoxGeometry, Float32BufferAttribute, Group, Mesh, PlaneGeometry} from "three";
 import {dimensions} from "../utils/dimensions.const";
 import {addToGui} from "../utils/gui.util";
 
@@ -12,6 +12,7 @@ export const initializeKitchen = (wallMaterial, floorMaterial, gui) => {
         new PlaneGeometry(dimensions.kitchen.width, dimensions.kitchen.length, 20, 20),
         floorMaterial
     )
+    floor.geometry.setAttribute('uv2', new Float32BufferAttribute(floor.geometry.attributes.uv.array, 2))
 
     floor.rotation.x = - Math.PI * 0.5
     addToGui(kitchenFolder, floor, 'floor')

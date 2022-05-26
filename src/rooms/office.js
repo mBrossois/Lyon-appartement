@@ -1,11 +1,11 @@
-import {Group, Mesh, MeshStandardMaterial, PlaneGeometry} from "three";
+import {Float32BufferAttribute, Group, Mesh, MeshStandardMaterial, PlaneGeometry} from "three";
 import {dimensions} from "../utils/dimensions.const.js";
 import {addToGui} from "../utils/gui.util.js";
 import {archwayGroup, initializeArchway} from "../objects/archwayGroup";
 
 export const officeGroup = new Group()
 
-export const initializeOffice = (wallMaterial, gui) => {
+export const initializeOffice = (wallMaterial, floorMaterial, gui) => {
     const officeFolder = gui.addFolder('Office')
     officeFolder.close()
     const parameters = {
@@ -15,8 +15,9 @@ export const initializeOffice = (wallMaterial, gui) => {
     // Floor
     const officeFloor = new Mesh(
         new PlaneGeometry(dimensions.office.width, dimensions.office.length, 10, 100, 100),
-        new MeshStandardMaterial({color: parameters.floorColor})
+        floorMaterial
     )
+    officeFloor.geometry.setAttribute('uv2', new Float32BufferAttribute(officeFloor.geometry.attributes.uv.array, 2))
 
     officeFolder.addColor(parameters, 'floorColor', '#e6e6e6')
         .onChange(() => {

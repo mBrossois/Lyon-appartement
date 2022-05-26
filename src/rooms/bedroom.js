@@ -1,4 +1,4 @@
-import {BoxGeometry, Group, Mesh, MeshStandardMaterial, PlaneGeometry} from "three";
+import {BoxGeometry, Float32BufferAttribute, Group, Mesh, MeshStandardMaterial, PlaneGeometry} from "three";
 import {dimensions} from "../utils/dimensions.const";
 import {addToGui} from "../utils/gui.util";
 
@@ -51,6 +51,8 @@ export const initializeBedroom = (wallMaterial, floorMaterial, textureLoader, gu
             })
         ]
     )
+    floor.geometry.setAttribute('uv2', new Float32BufferAttribute(floor.geometry.attributes.uv.array, 2))
+
     frontWall.position.y = dimensions.bedroom.height / 2
     frontWall.position.z = (dimensions.bedroom.length + dimensions.bedroom.wallDepth) / 2
     frontWall.rotation.y = Math.PI

@@ -1,10 +1,10 @@
-import {BoxGeometry, Group, Mesh, MeshStandardMaterial, PlaneGeometry} from "three";
+import {BoxGeometry, Float32BufferAttribute, Group, Mesh, MeshStandardMaterial, PlaneGeometry} from "three";
 import {dimensions} from "../utils/dimensions.const";
 import {addToGui} from "../utils/gui.util";
 
 export const bathroomGroup = new Group()
 
-export const initializeBathroom = (wallMaterial, gui) => {
+export const initializeBathroom = (wallMaterial, floorMaterial, gui) => {
     const bathroomFolder = gui.addFolder('bathroom')
 
     const parameter = {
@@ -14,8 +14,9 @@ export const initializeBathroom = (wallMaterial, gui) => {
     // Floor
     const floor = new Mesh(
         new PlaneGeometry(dimensions.bathroom.width, dimensions.bathroom.length, 10, 10),
-        new MeshStandardMaterial({color: parameter.bathroomFloorColor})
+        floorMaterial
     )
+    floor.geometry.setAttribute('uv2', new Float32BufferAttribute(floor.geometry.attributes.uv.array, 2))
     floor.rotation.x = -Math.PI * 0.5
 
     bathroomFolder.addColor(parameter, 'bathroomFloorColor', parameter.bathroomFloorColor)
