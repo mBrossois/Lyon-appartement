@@ -1,4 +1,4 @@
-import {BoxGeometry, DoubleSide, Group, Mesh, MeshStandardMaterial, PlaneGeometry} from "three";
+import {BoxGeometry, DoubleSide, Float32BufferAttribute, Group, Mesh, MeshStandardMaterial, PlaneGeometry} from "three";
 import {dimensions} from "../utils/dimensions.const";
 import {addToGui} from "../utils/gui.util";
 
@@ -18,6 +18,7 @@ export const initializeLivingRoom = (wallMaterial, floorMaterial, textureLoader,
         new PlaneGeometry(dimensions.livingRoom.width, dimensions.livingRoom.length, 10, 10),
         floorMaterial
     )
+    floor.geometry.setAttribute('uv2', new Float32BufferAttribute(floor.geometry.attributes.uv.array, 2))
     floor.rotation.x = -Math.PI * 0.5
     addToGui(livingRoomFolder, floor, 'floor')
 

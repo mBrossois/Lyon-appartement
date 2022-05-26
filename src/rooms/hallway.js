@@ -1,26 +1,30 @@
 // Hallway
-import {Group, Mesh, MeshStandardMaterial, PlaneGeometry} from "three";
+import {Float32BufferAttribute, Group, Mesh, MeshStandardMaterial, PlaneGeometry} from "three";
 import {dimensions} from "../utils/dimensions.const.js";
 import {addToGui} from "../utils/gui.util";
 
 export const hallwayGroup = new Group()
 
-export const initializeHallway = (wallMaterial, gui) => {
+export const initializeHallway = (wallMaterial, floorMaterial, doorMaterial, gui) => {
     const hallwayFolder = gui.addFolder('hallway')
     hallwayFolder.close()
 
     const hallwayFloor = new Mesh(
         new PlaneGeometry(dimensions.hallway.width, dimensions.hallway.length, 10, 100, 100),
-        new MeshStandardMaterial({color: '#e6e6e6'})
+        floorMaterial
     )
+    hallwayFloor.geometry.setAttribute('uv2', new Float32BufferAttribute(hallwayFloor.geometry.attributes.uv.array, 2))
+
     hallwayFloor.rotateX(-Math.PI * 0.5)
     addToGui(hallwayFolder, hallwayFloor, 'floor')
 
     // Door
     const hallwayEntranceDoor = new Mesh(
         new PlaneGeometry(1.5, dimensions.hallway.height, 100, 100),
-        new MeshStandardMaterial({color: '#000985'})
+        doorMaterial
     )
+    hallwayEntranceDoor.geometry.setAttribute('uv2', new Float32BufferAttribute(hallwayEntranceDoor.geometry.attributes.uv.array, 2))
+
     hallwayEntranceDoor.position.y = (dimensions.hallway.height / 2)
     hallwayEntranceDoor.position.z = dimensions.hallway.length / 2 - 0.01
     hallwayEntranceDoor.rotateY(Math.PI)
