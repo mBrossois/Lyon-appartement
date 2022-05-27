@@ -4,7 +4,7 @@ import {
     Clock,
     Group,
     MeshStandardMaterial,
-    PerspectiveCamera,
+    PerspectiveCamera, RepeatWrapping,
     Scene,
     TextureLoader,
     WebGLRenderer
@@ -45,12 +45,30 @@ const tilesTextureHeight = textureLoader.load('/textures/tiles_bathroom/Tiles_02
 const tilesTextureNormal = textureLoader.load('/textures/tiles_bathroom/Tiles_028_normal.jpg')
 const tilesTextureRoughness = textureLoader.load('/textures/tiles_bathroom/Tiles_028_roughness.jpg')
 
+const tilesHallwayTextureAmbientOcclusion = textureLoader.load('/textures/Tiles_hallway/Tiles_033_ambientOcclusion.jpg')
+const tilesHallwayTextureBasecolor = textureLoader.load('/textures/Tiles_hallway/Tiles_033_basecolor.jpg')
+const tilesHallwayTextureHeight = textureLoader.load('/textures/Tiles_hallway/Tiles_033_height.png')
+const tilesHallwayTextureNormal = textureLoader.load('/textures/Tiles_hallway/Tiles_033_normal.jpg')
+const tilesHallwayTextureRoughness = textureLoader.load('/textures/Tiles_hallway/Tiles_033_roughness.jpg')
+
+const tilesOfficeTextureAmbientOcclusion = textureLoader.load('/textures/Tiles_hallway/Tiles_033_ambientOcclusion.jpg')
+const tilesOfficeTextureBasecolor = textureLoader.load('/textures/Tiles_hallway/Tiles_033_basecolor.jpg')
+const tilesOfficeTextureHeight = textureLoader.load('/textures/Tiles_hallway/Tiles_033_height.png')
+const tilesOfficeTextureNormal = textureLoader.load('/textures/Tiles_hallway/Tiles_033_normal.jpg')
+const tilesOfficeTextureRoughness = textureLoader.load('/textures/Tiles_hallway/Tiles_033_roughness.jpg')
+
 const woodFloorTextureColor = textureLoader.load('/textures/Wood_Floor/Wood_Floor_007_COLOR.jpg')
 const woodFloorTextureHeight = textureLoader.load('/textures/Wood_Floor/Wood_Floor_007_DISP.png')
 const woodFloorTextureNormal = textureLoader.load('/textures/Wood_Floor/Wood_Floor_007_NORM.jpg')
 const woodFloorTextureAmbientOcclusion = textureLoader.load('/textures/Wood_Floor/Wood_Floor_007_OCC.jpg')
 const woodFloorTextureRoughness = textureLoader.load('/textures/Wood_Floor/Wood_Floor_007_ROUGH.jpg')
 
+const updateTexture = (texture, repeatX, repeatY) => {
+    texture.repeat.set(repeatX, repeatY)
+    texture.wrapS = RepeatWrapping
+    texture.wrapT = RepeatWrapping
+    return texture
+}
 
 // Scene
 const scene = new Scene()
@@ -96,7 +114,6 @@ const floorMaterial = new MeshStandardMaterial({
     aoMap: woodFloorTextureAmbientOcclusion,
 })
 const bathroomFloorMaterial = new MeshStandardMaterial({
-    // color: 'black',
     map: tilesTextureBasecolor,
     displacementMap: tilesTextureHeight,
     displacementScale: 0.02,
@@ -105,6 +122,30 @@ const bathroomFloorMaterial = new MeshStandardMaterial({
     aoMap: tilesTextureAmbientOcclusion
     }
 )
+
+const repeatX = 2.38
+const repeatY = 2.38
+
+const hallwayFloorMaterial = new MeshStandardMaterial({
+    map: updateTexture(tilesOfficeTextureBasecolor, repeatX, repeatY),
+    displacementMap: updateTexture(tilesOfficeTextureHeight, repeatX, repeatY),
+    displacementScale: 0.02,
+    normalMap: updateTexture(tilesOfficeTextureNormal,repeatX ,repeatY),
+    roughnessMap: updateTexture(tilesOfficeTextureRoughness, repeatX, repeatY),
+    aoMap: updateTexture(tilesOfficeTextureAmbientOcclusion, repeatX, repeatY)
+    }
+)
+
+const officeFloorMaterial = new MeshStandardMaterial({
+    map: tilesHallwayTextureBasecolor,
+    displacementMap: tilesHallwayTextureHeight,
+    displacementScale: 0.02,
+    normalMap: tilesHallwayTextureNormal,
+    roughnessMap: tilesHallwayTextureRoughness,
+    aoMap: tilesHallwayTextureAmbientOcclusion
+    }
+)
+
 const materialFolder = gui.addFolder('Color parameters')
 materialFolder.close()
 
@@ -123,13 +164,13 @@ const appartement = new Group()
 
 // Hallway
 const hallway = hallwayGroup
-initializeHallway(wallMaterial, floorMaterial, doorMaterial, gui)
+initializeHallway(wallMaterial, hallwayFloorMaterial, doorMaterial, gui)
 hallway.position.x = -dimensions.hallway.width / 2 + (dimensions.kitchen.width - dimensions.hallway.width) / 2 / 2
 hallway.position.z = dimensions.hallway.length / 2 + dimensions.kitchen.length / 2
 
 // Office
 const office = officeGroup
-initializeOffice(wallMaterial, floorMaterial, gui)
+initializeOffice(wallMaterial, officeFloorMaterial, gui)
 office.position.x = -dimensions.hallway.width / 2 + (dimensions.kitchen.width - dimensions.hallway.width) / 2 / 2 + (dimensions.hallway.width / 2 + dimensions.office.width / 2)
 office.position.z = dimensions.hallway.length / 2 + dimensions.kitchen.length / 2 - (dimensions.hallway.length / 2 - dimensions.office.length / 2)
 

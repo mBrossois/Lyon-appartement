@@ -1,5 +1,5 @@
 // Hallway
-import {Float32BufferAttribute, Group, Mesh, MeshStandardMaterial, PlaneGeometry} from "three";
+import {Float32BufferAttribute, Group, Mesh, MeshStandardMaterial, PlaneGeometry, RepeatWrapping} from "three";
 import {dimensions} from "../utils/dimensions.const.js";
 import {addToGui} from "../utils/gui.util";
 
